@@ -1,161 +1,222 @@
-# Decentralized-Voting-System-Using-Ethereum-Blockchain
 
-#### The Decentralized Voting System using Ethereum Blockchain is a secure and transparent solution for conducting elections. Leveraging Ethereum's blockchain technology, this system ensures tamper-proof voting records, enabling users to cast their votes remotely while maintaining anonymity and preventing fraud. Explore this innovative project for trustworthy and decentralized voting processes.
-#### For a cool demo of this project watch this [YouTube video](https://www.youtube.com/watch?v=a5CJ70D2P-E).
-#### For more details checkout [Project Report](https://github.com/Krish-Depani/Decentralized-Voting-System-Using-Ethereum-Blockchain/blob/main/Project%20Report%20github.pdf).
-#### PS: This project is not maintained anymore.
 
-## Features
--  Implements JWT for secure voter authentication and authorization.
--  Utilizes Ethereum blockchain for tamper-proof and transparent voting records.
--  Removes the need for intermediaries, ensuring a trustless voting process.
--  Admin panel to manage candidates, set voting dates, and monitor results.
--  Intuitive UI for voters to cast votes and view candidate information.
+# 🗳️ Decentralized Voting System Using Ethereum Blockchain
 
-## Requirements
-- Node.js (version – 18.14.0)
-- Metamask
-- Python (version – 3.9)
-- FastAPI
-- MySQL Database (port – 3306)
+## 📌 Introduction
 
-## Screenshots
+The Decentralized Voting System is a blockchain-based application that provides a secure, transparent, and tamper-proof platform for conducting elections. Built on the Ethereum blockchain, this project uses smart contracts to ensure that votes are immutable and only registered users are allowed to participate in the voting process. It combines the power of blockchain with web technologies and a traditional backend to create a complete end-to-end digital voting system.
 
-![Login Page](https://github.com/Krish-Depani/Decentralized-Voting-System-Using-Ethereum-Blockchain/blob/main/public/login%20ss.png)
+---
 
-![Admin Page](https://github.com/Krish-Depani/Decentralized-Voting-System-Using-Ethereum-Blockchain/blob/main/public/admin%20ss.png)
+## 🎯 Purpose & Goals
 
-![Voter Page](https://github.com/Krish-Depani/Decentralized-Voting-System-Using-Ethereum-Blockchain/blob/main/public/index%20ss.png)
+- ✅ Ensure **secure and tamper-proof** elections
+- ✅ Enable **real-time, transparent** result monitoring
+- ✅ Restrict voting to **authorized users** only
+- ✅ Prevent **double voting** or vote manipulation
+- ✅ Build a **decentralized**, auditable election platform
 
-## Installation
+---
 
-1. Open a terminal.
+## 🛠️ Tools and Technologies Used
 
-2. Clone the repository by using the command
-        
-        git clone https://github.com/Krish-Depani/Decentralized-Voting-System-Using-Ethereum-Blockchain.git
+| Layer            | Technology                         |
+|------------------|-------------------------------------|
+| **Blockchain**   | Ethereum (Ganache local blockchain) |
+| **Smart Contract**| Solidity                            |
+| **Development**  | Truffle framework                   |
+| **Front-end**    | HTML, CSS, JavaScript, Web3.js      |
+| **JS Bundling**  | Browserify                          |
+| **Wallet**       | MetaMask                            |
+| **Backend API**  | Python (FastAPI)                    |
+| **Database**     | MySQL                               |
+| **Web Server**   | Node.js                             |
 
-3. Download and install [Ganache](https://trufflesuite.com/ganache/).
+---
 
-4. Create a workspace named <b>developement</b>, in the truffle projects section add `truffle-config.js` by clicking `ADD PROJECT` button.
+## ⚙️ Installation & Setup Instructions
 
-5. Download [Metamask](https://metamask.io/download/) extension for the browser.
+### 1️⃣ Install Required Software
 
-6. Now create wallet (if you don't have one), then import accounts from ganache.
+Ensure the following are installed:
+- Node.js and npm
+- Python 3.8+ and pip
+- MySQL Server
+- Git (for code management)
+- Ganache (local blockchain)
+- MetaMask (browser extension)
 
-7. Add network to the metamask. ( Network name - Localhost 7575, RPC URl - http://localhost:7545, Chain ID - 1337, Currency symbol - ETH)
+---
 
-8. Open MySQL and create database named <b>voter_db</b>. (DON'T USE XAMPP)
+### 2️⃣ Project Setup
 
-9. In the database created, create new table named <b>voters</b> in the given format and add some values.
+#### 🧩 Install Node Dependencies
 
-           CREATE TABLE voters (
-           voter_id VARCHAR(36) PRIMARY KEY NOT NULL,
-           role ENUM('admin', 'user') NOT NULL,
-           password VARCHAR(255) NOT NULL
-           );
-   <br>
+```bash
+npm install
+npm install -g truffle
+npm install -g browserify
+````
 
-        +--------------------------------------+-------+-----------+
-        | voter_id                             | role  | password  |
-        +--------------------------------------+-------+-----------+
-        |                                      |       |           |
-        +--------------------------------------+-------+-----------+
+#### 🐍 Install Python Dependencies
 
-12. Install truffle globally
-    
-        npm install -g truffle
+```bash
+pip install fastapi uvicorn[standard] mysql-connector-python pydantic python-dotenv PyJWT
+```
 
-14. Go to the root directory of repo and install node modules
+---
 
-        npm install
+### 3️⃣ MySQL Database Setup
 
-15. Install python dependencies
+1. Open MySQL terminal:
 
-        pip install fastapi mysql-connector-python pydantic python-dotenv uvicorn uvicorn[standard] PyJWT
+```bash
+mysql -u root -p
+```
 
-## Usage
+2. Create database and table:
 
-#### Note: Update the database credentials in the `./Database_API/.env` file.
+```sql
+CREATE DATABASE voter_db;
+USE voter_db;
 
-1. Open terminal at the project directory
+CREATE TABLE voters (
+    voter_id VARCHAR(36) PRIMARY KEY NOT NULL,
+    role ENUM('admin', 'user') NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
 
-2. Open Ganache and it's <b>development</b> workspace.
+INSERT INTO voters VALUES
+('123e4567-e89b-12d3-a456-426614174000', 'admin', 'adminpass'),
+('987f6543-e21a-45d9-b456-426614174111', 'user', 'userpass');
+```
 
-3. open terminal in project's root directory and run the command
+---
 
-        truffle console
-   then compile the smart contracts with command
+### 4️⃣ Set Up `.env` File
 
-        compile
-   exit the truffle console
+Create a `.env` file inside `Database_API/` folder:
 
-5. Bundle app.js with browserify
-    
-        browserify ./src/js/app.js -o ./src/dist/app.bundle.js
+```
+MYSQL_USER=root
+MYSQL_PASSWORD=your_mysql_password
+MYSQL_HOST=127.0.0.1
+MYSQL_DB=voter_db
+SECRET_KEY=somerandomkey
+```
 
-2. Start the node server server
-    
-        node index.js
+---
 
-3. Navigate to `Database_API` folder in another terminal
-    
-        cd Database_API
-    then start the database server by following command
+### 5️⃣ Start Ganache and Setup Workspace
 
-        uvicorn main:app --reload --host 127.0.0.1
+1. Open Ganache GUI
+2. Create new workspace named `development`
+3. Add `truffle-config.js` as Truffle Project
+4. Start the workspace
 
-4. In a new terminal migrate the truffle contract to local blockchain
-    
-        truffle migrate
+---
 
-You're all set! The Voting app should be up and running now at http://localhost:8080/.<br>
-For more info about usage checkout [YouTube video](https://www.youtube.com/watch?v=a5CJ70D2P-E).
+### 6️⃣ Compile and Migrate Smart Contracts
 
-## Code Structure
+```bash
+truffle compile
+truffle migrate
+```
 
-    ├── blockchain-voting-dapp            # Root directory of the project.
-        ├── build                         # Directory containing compiled contract artifacts.
-        |   └── contracts                 
-        |       ├── Migrations.json       
-        |       └── Voting.json           
-        ├── contracts                     # Directory containing smart contract source code.
-        |   ├── 2_deploy_contracts.js     
-        |   ├── Migrations.sol            
-        |   └── Voting.sol                
-        ├── Database_API                  # API code for database communication.
-        |   └── main.py                   
-        ├── migrations                    # Ethereum contract deployment scripts.
-        |   └── 1_initial_migration.js    
-        ├── node_modules                  # Node.js modules and dependencies.
-        ├── public                        # Public assets like favicon.
-        |   └── favicon.ico               
-        ├── src                           
-        |   ├── assets                    # Project images.
-        |   |   └── eth5.jpg              
-        |   ├── css                       # CSS stylesheets.
-        |   |   ├── admin.css             
-        |   |   ├── index.css             
-        |   |   └── login.css             
-        |   ├── dist                      # Compiled JavaScript bundles.
-        |   |   ├── app.bundle.js         
-        |   |   └── login.bundle.js       
-        |   ├── html                      # HTML templates.
-        |   |   ├── admin.html            
-        |   |   ├── index.html            
-        |   |   └── login.html            
-        |   └── js                        # JavaScript logic files.
-        |       ├── app.js                
-        |       └── login.js              
-        ├── index.js                      # Main entry point for Node.js application.
-        ├── package.json                  # Node.js package configuration.
-        ├── package-lock.json             # Lockfile for package dependencies.
-        ├── README.md                     # Project documentation.
-        └── truffle-config.js                    # Truffle configuration file.
+---
 
-## License
+### 7️⃣ Bundle Front-end JavaScript
 
-The code in this repository is licensed under the MIT License. This means that you are free to use, modify, and distribute the code, as long as you include the original copyright and license notice. For more information about LICENSE please click [here](https://github.com/Krish-Depani/Decentralized-Voting-System-Using-Ethereum-Blockchain/blob/main/LICENSE).
+Use Command Prompt (not PowerShell):
 
-## If you like this project, please give it a 🌟.
-## Thank you 😊.
+```bash
+browserify src/js/app.js -o src/dist/app.bundle.js
+browserify src/js/login.js -o src/dist/login.bundle.js
+```
+
+---
+
+### 8️⃣ Run the Servers
+
+#### 🔌 Start FastAPI Server
+
+```bash
+cd Database_API
+uvicorn main:app --reload --host 127.0.0.1
+```
+
+Leave this terminal open.
+
+#### 🌐 Start Node.js Web Server
+
+```bash
+cd ../
+node index.js
+```
+
+---
+
+### 9️⃣ Configure MetaMask
+
+1. Open MetaMask
+2. Add network:
+
+   * **Network Name:** Localhost 7545
+   * **RPC URL:** [http://localhost:7545](http://localhost:7545)
+   * **Chain ID:** 1337
+   * **Currency Symbol:** ETH
+3. Import accounts from Ganache using private keys
+
+---
+
+### 🔟 Open the DApp
+
+Open your browser and go to:
+
+```
+http://localhost:8080
+```
+
+#### 🧑‍💼 Admin Login
+
+```
+Voter ID:   123e4567-e89b-12d3-a456-426614174000
+Password:   adminpass
+```
+
+#### 🙋‍♂️ User Login
+
+```
+Voter ID:   987f6543-e21a-45d9-b456-426614174111
+Password:   userpass
+```
+
+---
+
+## ✅ Features
+
+* Admin can:
+
+  * Add candidates
+  * Set voting period
+  * Monitor voting results
+
+* Voters can:
+
+  * Log in securely
+  * View candidates
+  * Vote only once
+  * View voting status
+
+---
+
+## 📢 Notes
+
+* All votes are recorded on the Ethereum blockchain
+* Only authorized voters (stored in MySQL) can participate
+* Each wallet address can vote only once
+* Backend APIs handle voter login and verification
+
+---
+
+
